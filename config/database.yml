@@ -1,0 +1,32 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: mutsuki_development
+  pool: 5
+  username: <%= ENV['DEV_DB_USERNAME'] %>
+  password: <%= ENV['DEV_DB_PASSWORD'] %>
+  host: localhost
+  socket: /tmp/mysql.sock
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: mutsuki_test
+  pool: 5
+  username: <%= ENV['TEST_DB_USERNAME'] %>
+  password: <%= ENV['TEST_DB_PASSWORD'] %>
+  host: localhost
+  socket: /tmp/mysql.sock
+
+production:
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: <%= ENV['DATABASE_NAME'] %>
+  pool: 5
+  username: <%= ENV['PRO_DB_USERNAME'] %>
+  password: <%= ENV['PRO_DB_PASSWORD'] %>
+  host: <%= ENV['DATABASE_URL'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
