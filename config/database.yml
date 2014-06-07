@@ -24,7 +24,7 @@ production:
   adapter: postgresql
   encoding: utf8
   reconnect: false
-  database: <%= ENV['DATABASE_NAME'] %>
+  database: <%= ENV['PRO_DB_NAME'] %>
   pool: 5
   username: <%= ENV['PRO_DB_USERNAME'] %>
   password: <%= ENV['PRO_DB_PASSWORD'] %>
