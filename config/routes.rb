@@ -1,4 +1,10 @@
 Mutsuki::Application.routes.draw do
+  resources :users do
+    member do
+      get :event
+    end
+  end
+
   resources :events
 
   # The priority is based upon order of creation: first created -> highest priority.

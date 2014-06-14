@@ -1,0 +1,10 @@
+<ul>
+<li>user name: <%= @user.name %></li>
+<li>events
+  <ul>
+    <% @user.events.each do |event| %>
+      <li><%= event.name %></li>
+    <% end %>
+  </ul>
+</li>
+</ul>
