@@ -41,7 +41,7 @@ class AuthorizedAppsController < ApplicationController
   # PATCH/PUT /authorized_apps/1.json
   def update
     respond_to do |format|
-      if @authorized_app.update(authorized_app_params)
+      if @authorized_app.update(update_authorized_app_params)
         format.html { redirect_to @authorized_app, notice: 'Authorized app was successfully updated.' }
         format.json { head :no_content }
       else
@@ -70,6 +70,10 @@ class AuthorizedAppsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def authorized_app_params
       params['authorized_app']['key'] = SecureRandom.hex(8)
+      params.require(:authorized_app).permit(:name, :key)
+    end
+
+    def update_authorized_app_params
       params.require(:authorized_app).permit(:name, :key)
     end
 end
