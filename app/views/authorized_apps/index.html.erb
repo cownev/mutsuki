@@ -1,0 +1,31 @@
+<h1>Listing authorized_apps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Key</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @authorized_apps.each do |authorized_app| %>
+      <tr>
+        <td><%= authorized_app.id %></td>
+        <td><%= authorized_app.name %></td>
+        <td><%= authorized_app.key %></td>
+        <td><%= link_to 'Show', authorized_app %></td>
+        <td><%= link_to 'Edit', edit_authorized_app_path(authorized_app) %></td>
+        <td><%= link_to 'Destroy', authorized_app, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Authorized app', new_authorized_app_path %>

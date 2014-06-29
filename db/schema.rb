@@ -11,18 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140614142630) do
+ActiveRecord::Schema.define(version: 20140621131230) do
+
+  create_table "authorized_apps", force: true do |t|
+    t.string   "name", null: false
+    t.string   "key", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", force: true do |t|
-    t.string   "name"
-    t.date     "date"
+    t.string   "name", null: false
+    t.date     "date", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "user_events", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "event_id"
+    t.integer  "user_id", null: false
+    t.integer  "event_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -31,9 +38,9 @@ ActiveRecord::Schema.define(version: 20140614142630) do
   add_index "user_events", ["user_id"], name: "index_user_events_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "name"
-    t.integer  "gender"
-    t.date     "birthday"
+    t.string   "name", null: false
+    t.integer  "gender", null: false
+    t.date     "birthday", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

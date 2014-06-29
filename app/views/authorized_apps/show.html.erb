@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id:</strong>
+  <%= @authorized_app.id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @authorized_app.name %>
+</p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @authorized_app.key %>
+</p>
+
+<%= link_to 'Edit', edit_authorized_app_path(@authorized_app) %> |
+<%= link_to 'Back', authorized_apps_path %>

@@ -13,14 +13,10 @@ Bundler.require(:default, Rails.env)
 
 module Mutsuki
   class Application < Rails::Application
-    #config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    #config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
     config.middleware.use(Rack::Config) do |env|
       env['api.tilt.root'] = Rails.root.join "app", "views", "api"
     end
-    #config.paths.add "app/api", glob: "**/*.rb"
-    #config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

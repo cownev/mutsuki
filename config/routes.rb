@@ -1,4 +1,6 @@
 Mutsuki::Application.routes.draw do
+  resources :authorized_apps
+
   resources :users
   resources :events
   mount API => "/api"
