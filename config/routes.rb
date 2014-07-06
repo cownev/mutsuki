@@ -1,6 +1,6 @@
 Mutsuki::Application.routes.draw do
   root to: 'users#index'
-  devise_for :admins, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}
+  devise_for :admins, :path => '', :path_names => {:sign_in => 'signin', :sign_out => 'signout'}
 
   resources :authorized_apps
   resources :users

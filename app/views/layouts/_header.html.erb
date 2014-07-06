@@ -1,6 +1,13 @@
-<header>
-  <% if admin_signed_in? %>
-    <%= current_admin.email %>
-    <%= link_to "Sign out", destroy_admin_session_path, :method => :delete %>
-  <% end %>
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <%= link_to "Mutsuki Admin", '#', id: "logo" %>
+      <% if admin_signed_in? %>
+        <ul class="nav pull-right">
+	  <li><%= link_to current_admin.email, '#' %></li>
+	  <li><%= link_to "Sign out", destroy_admin_session_path, method: :delete %></li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
 </header>
