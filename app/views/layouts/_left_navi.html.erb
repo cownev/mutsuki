@@ -1,0 +1,10 @@
+<% if admin_signed_in? %>
+  <nav>
+    <ul class="nav nav-list span2">
+      <li class="nav-header">Menu</li>
+      <li class="<%= 'active' if current_page?(users_path) %>"><%= link_to "User", users_path %></li>
+      <li class="<%= 'active' if current_page?(events_path) %>"><%= link_to "Event", events_path %></li>
+      <li class="<%= 'active' if current_page?(authorized_apps_path) %>"><%= link_to "Authorized Apps", authorized_apps_path %></li>
+    </ul>
+  </nav>
+<% end %>
