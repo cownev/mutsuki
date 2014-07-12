@@ -18,7 +18,6 @@ class API < Grape::API
 
   resource :events do
     get "/" , jbuilder:'events' do
-      header 'Content-type', 'application/json; charset=utf-8'
       authenticate!
       @status = 200
       @message = 'OK'
