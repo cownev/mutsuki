@@ -20,6 +20,6 @@
     <%= f.date_select :date %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Register Event', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>
   </div>
 <% end %>

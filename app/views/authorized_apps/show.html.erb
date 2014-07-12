@@ -1,19 +1,19 @@
-<p id="notice"><%= notice %></p>
+<h1>Detail of <%= @authorized_app.name %></h1>
 
-<p>
-  <strong>Id:</strong>
-  <%= @authorized_app.id %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @authorized_app.name %>
-</p>
-
-<p>
-  <strong>Key:</strong>
-  <%= @authorized_app.key %>
-</p>
+<table  class="table table-hover">
+    <tr>
+      <th>Id : </th>
+      <td><%= @authorized_app.id %></td>
+    </tr>
+    <tr>
+      <th>Name : </th>
+      <td><%= @authorized_app.name %></td>
+    </tr>
+    <tr>
+      <th>Key : </th>
+      <td><%= @authorized_app.key %></td>
+    </tr>
+</table>
 
 <%= link_to 'Edit', edit_authorized_app_path(@authorized_app) %> |
-<%= link_to 'Back', authorized_apps_path %>
+<%= link_to 'Back to List', authorized_apps_path %>

@@ -1,6 +1,6 @@
-<h1>Listing authorized_apps</h1>
+<h1>Listing Authorized Apps</h1>
 
-<table>
+<table  class="table table-hover">
   <thead>
     <tr>
       <th>Id</th>
@@ -20,7 +20,7 @@
         <td><%= authorized_app.key %></td>
         <td><%= link_to 'Show', authorized_app %></td>
         <td><%= link_to 'Edit', edit_authorized_app_path(authorized_app) %></td>
-        <td><%= link_to 'Destroy', authorized_app, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', authorized_app, method: :delete, data: { confirm: 'Are you sure ?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Authorized app', new_authorized_app_path %>
+<%= button_to 'Register New App', new_authorized_app_path, method: :get, class: 'btn btn-primary' %>

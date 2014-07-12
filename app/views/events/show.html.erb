@@ -1,14 +1,15 @@
-<p id="notice"><%= notice %></p>
+<h1>Detail of <%= @event.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @event.name %>
-</p>
-
-<p>
-  <strong>Date:</strong>
-  <%= @event.date %>
-</p>
+<table  class="table table-hover">
+    <tr>
+      <th>Name : </th>
+      <td><%= @event.name %></td>
+    </tr>
+    <tr>
+      <th>Date : </th>
+      <td><%= @event.date %></td>
+    </tr>
+</table>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<%= link_to 'Back to List', events_path %>

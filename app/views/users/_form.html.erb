@@ -24,6 +24,6 @@
     <%= f.date_select :birthday %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Register User', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -1,7 +1,7 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Mutsuki Admin", '#', id: "logo" %>
+      <%= link_to "Mutsuki Admin", root_path, id: "logo" %>
       <% if admin_signed_in? %>
         <ul class="nav pull-right">
 	  <li><%= link_to current_admin.email, '#' %></li>
