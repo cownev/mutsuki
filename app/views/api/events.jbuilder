@@ -4,12 +4,8 @@ json.header do
 end
 
 json.content do
-  json.user do
-    json.extract! @user, :id
-  end
-
   json.events do
-    json.array!(@user.events) do |event|
+    json.array!(@events) do |event|
       json.extract! event, :id, :name, :date
     end
   end

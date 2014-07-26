@@ -115,17 +115,16 @@ class API < Grape::API
       end
     end
 
-    params do
-      requires :uid, type: Integer
-    end
-    resource :events do
+    resource :event do
       get "list", jbuilder:'events' do
         @status = 200
         @message = 'OK'
-        @user = User.find(params[:user_id])
+	@events = Event.limit(2)
+	#@events = Event.all
       end
 
       params do
+        requires :uid,  type: Integer
         requires :name, type: String
         requires :date, type: Date
       end
@@ -133,7 +132,7 @@ class API < Grape::API
         @status = 200
         @message = 'OK'
         @user = Event.create!({
-  	  name: params[:user_id],
+  	  uid: params[:uid],
 	  name: params[:name],
           date: params[:date]
         })
