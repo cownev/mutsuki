@@ -13,21 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140706054305) do
 
-  create_table "admin_users", force: true do |t|
-    t.string   "email",               default: "", null: false
-    t.string   "encrypted_password",  default: "", null: false
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",       default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
-
   create_table "admins", force: true do |t|
     t.string   "email",               default: "", null: false
     t.string   "encrypted_password",  default: "", null: false
@@ -65,12 +50,11 @@ ActiveRecord::Schema.define(version: 20140706054305) do
   end
 
   add_index "user_events", ["event_id"], name: "index_user_events_on_event_id", using: :btree
+  add_index "user_events", ["user_id", "event_id"], name: "index_user_events_on_user_id_and_event_id", unique: true, using: :btree
   add_index "user_events", ["user_id"], name: "index_user_events_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "name"
-    t.integer  "gender"
-    t.date     "birthday"
+    t.string   "fid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
