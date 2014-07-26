@@ -14,7 +14,8 @@ class API < Grape::API
     Rack::Response.new({
       header: {
         status: 404,
-        message: e.message
+        message: 'not found'
+        #message: e.message
       }
     }.to_json, 404).finish
   end
@@ -49,40 +50,84 @@ class API < Grape::API
 
   resource :service do
 
-    resource :users do
+    resource :user do
       params do
-        requires :name,     type: String
-        requires :birthday, type: Date
+        requires :fid, type: String
       end
-
       put "create", jbuilder:'new_user' do
         @status = 200
         @message = 'OK'
         @user = User.create!({
-   	  name: params[:name],
-          birthday: params[:birthday]
+   	  fid: params[:fid]
         })
+      end
+
+      params do
+        requires :fid, type: String
+      end
+      get "auth", jbuilder:'user' do
+        @status = 200
+        @message = 'OK'
+        @id = User.where(fid: params[:fid]).select(:id).limit(1)
+        @user = User.find(@id) if @id
+      end
+
+      params do
+        requires :uid, type: Integer
+      end
+      get "/", jbuilder:'user' do
+        @status = 200
+        @message = 'OK'
+        @user = User.find(params[:uid])
+      end
+
+      params do
+        requires :uid, type: Integer
+      end
+      delete "delete", jbuilder:'return_header' do
+        @status = 200
+        @message = 'OK'
+        @user = User.find(params[:uid]).destroy
+      end
+
+      params do
+        requires :uid, type: Integer 
+        requires :eid, type: Integer
+      end
+      resource :event do
+        put "add", jbuilder:'return_header' do
+          @status = 200
+          @message = 'OK'
+	  @user  = User.find(params[:uid])
+	  @event = Event.find(params[:eid])
+          @user_event = UserEvent.create!({
+   	    user: @user, 
+	    event: @event
+          })
+        end
+        delete "remove", jbuilder:'return_header' do
+          @status = 200
+          @message = 'OK'
+          @user_event = UserEvent.find_by(user_id: params[:uid], event_id: params[:eid])
+	  raise ActiveRecord::RecordNotFound if @user_event.blank?
+	  @user_event.destroy
+        end
       end
     end
 
+    params do
+      requires :uid, type: Integer
+    end
     resource :events do
-      params do
-        requires :user_id, type: Integer
-      end
-      get "/", jbuilder:'events' do
+      get "list", jbuilder:'events' do
         @status = 200
         @message = 'OK'
         @user = User.find(params[:user_id])
       end
 
-      get ":id", jbuilder:'events' do
-        @user = User.find(params[:user_id])
-      end
-
       params do
-        requires :user_id, type: Integer
-        requires :name,    type: String
-        requires :date,    type: Date
+        requires :name, type: String
+        requires :date, type: Date
       end
       put "create", jbuilder:'new_event' do
         @status = 200

@@ -12,16 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :gender %><br>
-    <%= f.number_field :gender %>
-  </div>
-  <div class="field">
-    <%= f.label :birthday %><br>
-    <%= f.date_select :birthday %>
+    <%= f.label :fid %><br>
+    <%= f.text_field :fid %>
   </div>
   <div class="actions">
     <%= f.submit 'Register User', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>
