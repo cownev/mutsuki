@@ -119,7 +119,7 @@ class API < Grape::API
       get "list", jbuilder:'events' do
         @status = 200
         @message = 'OK'
-	@events = Event.limit(2)
+	@events = Event.limit(10)
 	#@events = Event.all
       end
 
