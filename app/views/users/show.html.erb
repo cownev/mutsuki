@@ -1,4 +1,4 @@
-<h1>Detail of <%= @user.id %></h1>
+<h1>Detail of User-<%= @user.id %></h1>
 
 <table  class="table table-hover">
     <tr>
@@ -8,6 +8,14 @@
     <tr>
       <th>Fid : </th>
       <td><%= @user.fid %></td>
+    </tr>
+    <tr>
+      <th>Event Id : </th>
+        <td>
+          <% @user.events.each do |event| %>
+	    <%= link_to event.id, event %>
+          <% end %>
+        </td>
     </tr>
 </table>
 
