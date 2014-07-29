@@ -92,9 +92,29 @@ class API < Grape::API
 
       params do
         requires :uid, type: Integer 
-        requires :eid, type: Integer
       end
       resource :event do
+        params do
+          requires :name, type: String
+          requires :date, type: Date
+	end
+        put "create", jbuilder:'user' do
+          @status = 200
+          @message = 'OK'
+          @event = Event.create!({
+	    name: params[:name],
+            date: params[:date]
+          })
+	  @user  = User.find(params[:uid])
+          @user_event = UserEvent.create!({
+   	    user: @user, 
+	    event: @event
+          })
+        end
+	
+        params do
+          requires :eid, type: Integer
+        end
         put "add", jbuilder:'return_header' do
           @status = 200
           @message = 'OK'
@@ -104,6 +124,10 @@ class API < Grape::API
    	    user: @user, 
 	    event: @event
           })
+        end
+
+        params do
+          requires :eid, type: Integer
         end
         delete "remove", jbuilder:'return_header' do
           @status = 200
