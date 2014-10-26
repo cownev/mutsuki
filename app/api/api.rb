@@ -65,7 +65,7 @@ class API < Grape::API
       params do
         requires :fid, type: String
       end
-      get "auth", jbuilder:'user' do
+      get "auth", jbuilder:'return_header' do
         @status = 200
         @message = 'OK'
         @id = User.where(fid: params[:fid]).select(:id).limit(1)
@@ -102,8 +102,9 @@ class API < Grape::API
           @status = 200
           @message = 'OK'
           @event = Event.create!({
-	    name: params[:name],
-            date: params[:date]
+	    name:            params[:name],
+            date:            params[:date],
+            creator_user_id: params[:uid]
           })
 	  @user  = User.find(params[:uid])
           @user_event = UserEvent.create!({
@@ -111,7 +112,24 @@ class API < Grape::API
 	    event: @event
           })
         end
-	
+       
+        params do
+          requires :eid,  type: Integer
+          requires :name, type: String
+          requires :date, type: Date
+	end
+        put "update", jbuilder:'return_header' do
+          @status = 200
+          @message = 'OK'
+
+          @event = Event.find_by(id: params[:eid], creator_user_id: params[:uid])
+	  raise ActiveRecord::RecordNotFound if @event.blank?
+	  @event.update({
+       	          name: params[:name],
+                  date: params[:date]
+	  })
+        end
+
         params do
           requires :eid, type: Integer
         end
