@@ -9,6 +9,10 @@
       <th>Date : </th>
       <td><%= @event.date %></td>
     </tr>
+    <tr>
+      <th>CreatorId : </th>
+      <td><%= @event.creator_user_id %></td>
+    </tr>
 </table>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
