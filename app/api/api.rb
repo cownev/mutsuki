@@ -186,4 +186,8 @@ class API < Grape::API
       end
     end
   end
+
+  route :any, '*path' do
+      error!({'header' => {'status' => '404', 'message' => 'not found'}})
+  end
 end
