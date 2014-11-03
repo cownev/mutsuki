@@ -69,7 +69,8 @@ class API < Grape::API
         @status = 200
         @message = 'OK'
         @id = User.where(fid: params[:fid]).select(:id).limit(1)
-        @user = User.find(@id) if @id
+        # @user = User.find(@id) if @id
+	raise ActiveRecord::RecordNotFound if @id.blank?
       end
 
       params do
@@ -101,12 +102,16 @@ class API < Grape::API
         put "create", jbuilder:'user' do
           @status = 200
           @message = 'OK'
+
+	  @user  = User.find(params[:uid])
+	  raise ActiveRecord::RecordNotFound if @user.blank?
+
           @event = Event.create!({
 	    name:            params[:name],
             date:            params[:date],
             creator_user_id: params[:uid]
           })
-	  @user  = User.find(params[:uid])
+
           @user_event = UserEvent.create!({
    	    user: @user, 
 	    event: @event
