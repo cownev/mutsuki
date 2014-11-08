@@ -6,7 +6,11 @@ class API < Grape::API
   helpers do
     def authenticate!
       auth_app = AuthorizedApp.find_by(id: params[:app_id], key: params[:app_key])
-      error!({'header' => {'status' => '401', 'message' => 'Unauthorized. Invalid or expired token'}}) unless auth_app
+      show_message(403, 'forbidden')  unless auth_app
+    end
+
+    def show_message(code = 500, message = 'internal server error')
+      error!({'header' => {'status' => code, 'message' => message}}) 
     end
   end
 
@@ -70,7 +74,7 @@ class API < Grape::API
         @message = 'OK'
         @id = User.where(fid: params[:fid]).select(:id).limit(1)
         # @user = User.find(@id) if @id
-	raise ActiveRecord::RecordNotFound if @id.blank?
+        show_message(401, "unauthorized") if @id.blank?
       end
 
       params do
@@ -188,6 +192,6 @@ class API < Grape::API
   end
 
   route :any, '*path' do
-      error!({'header' => {'status' => '404', 'message' => 'not found'}})
+    show_message(404, 'not found')
   end
 end
