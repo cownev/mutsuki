@@ -69,12 +69,15 @@ class API < Grape::API
       params do
         requires :fid, type: String
       end
-      get "auth", jbuilder:'return_header' do
+      get "auth", jbuilder:'auth_user' do
+      #get "auth", jbuilder:'return_header' do
         @status = 200
         @message = 'OK'
-        @id = User.where(fid: params[:fid]).select(:id).limit(1)
+        @user = User.find_by(fid: params[:fid])
+        # @id = User.where(fid: params[:fid]).select(:id).limit(1)
         # @user = User.find(@id) if @id
-        show_message(401, "unauthorized") if @id.blank?
+        show_message(401, "unauthorized") if @user.blank?
+        #show_message(401, "unauthorized") if @id.blank?
       end
 
       params do
