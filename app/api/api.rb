@@ -28,7 +28,7 @@ class API < Grape::API
     Rack::Response.new({
       header: {
         status: e.status,
-        message: 'some mandatory parameters are missing'
+        message: 'some parameters are valid or some mandatory parameters are missing'
       }
     }.to_json, e.status).finish
   end
@@ -81,12 +81,14 @@ class API < Grape::API
       end
 
       params do
-        requires :uid, type: Integer
+        requires :uid,   type: Integer
+	optional :efrom, type: Date,   default: -> { '1986-01-01' }
       end
-      get "/", jbuilder:'user' do
+      get "/", jbuilder:'show_user' do
         @status = 200
         @message = 'OK'
         @user = User.find(params[:uid])
+	@events = @user.events.where("date >= ?", params[:efrom])
       end
 
       params do
