@@ -25,7 +25,9 @@
         <%= render 'layouts/left_navi' %>
       </div>
       <div class="span9">
-        <%= yield %>
+        <% if admin_signed_in? or params[:controller] == 'devise/sessions' %>
+          <%= yield %>
+        <% end %>
       </div>
     </div>
   </div>
