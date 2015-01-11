@@ -88,7 +88,7 @@ class API < Grape::API
         @status = 200
         @message = 'OK'
         @user = User.find(params[:uid])
-	@events = @user.events.where("date >= ?", params[:efrom])
+	@events = @user.events.where("date >= ?", params[:efrom]).order(date: :asc, id: :asc)
       end
 
       params do
