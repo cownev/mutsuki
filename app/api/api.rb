@@ -108,7 +108,7 @@ class API < Grape::API
           requires :name, type: String
           requires :date, type: Date
 	end
-        put "create", jbuilder:'user' do
+        put "create", jbuilder:'return_header' do
           @status = 200
           @message = 'OK'
 
