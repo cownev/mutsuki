@@ -15,6 +15,14 @@
     <%= f.label :fid %><br>
     <%= f.text_field :fid %>
   </div>
+  <div class="field">
+    <%= f.label :gender %><br>
+    <%= f.text_field :gender %>
+  </div>
+  <div class="field">
+    <%= f.label :bday %><br>
+    <%= f.date_select :bday %>
+  </div>
   <div class="actions">
     <%= f.submit 'Register User', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>
   </div>

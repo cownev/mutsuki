@@ -10,12 +10,24 @@
       <td><%= @user.fid %></td>
     </tr>
     <tr>
+      <th>Gender : </th>
+      <td><%= @user.gender.blank? ? '-' : @user.gender %></td>
+    </tr>
+    <tr>
+      <th>Birth Day : </th>
+      <td><%= @user.bday.blank? ? '-' : @user.bday %></td>
+    </tr>
+    <tr>
       <th>Event Id : </th>
+      <% if @user.events.blank? %>
+        <td>-</td>
+      <% else %>
         <td>
           <% @user.events.each do |event| %>
 	    <%= link_to event.id, event %>
           <% end %>
         </td>
+      <% end %>
     </tr>
 </table>
 

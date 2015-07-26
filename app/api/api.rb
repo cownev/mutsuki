@@ -56,13 +56,17 @@ class API < Grape::API
 
     resource :user do
       params do
-        requires :fid, type: String
+        requires :fid,    type: String
+	optional :gender, type: String
+	optional :bday,   type: Date
       end
       put "create", jbuilder:'new_user' do
         @status = 200
         @message = 'OK'
         @user = User.create!({
-   	  fid: params[:fid]
+   	  fid:    params[:fid],
+   	  gender: params[:gender],
+   	  bday:   params[:bday]
         })
       end
 

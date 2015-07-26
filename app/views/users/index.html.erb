@@ -5,6 +5,8 @@
     <tr>
       <th>Id</th>
       <th>Fid</th>
+      <th>Gender</th>
+      <th>BirthDay</th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,6 +18,8 @@
       <tr>
         <td><%= user.id %></td>
         <td><%= user.fid %></td>
+	<td><%= user.gender.blank? ? '-' : user.gender %></td>
+	<td><%= user.bday.blank? ? '-' : user.bday %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure ?' } %></td>

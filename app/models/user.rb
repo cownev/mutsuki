@@ -5,4 +5,11 @@ class User < ActiveRecord::Base
   validates :fid,
     presence: true,
     uniqueness: true
+
+  before_validation :check_whitespace, :only => [:gender]
+
+  private
+  def check_whitespace
+    self.gender = nil if self.gender.blank?
+  end
 end
