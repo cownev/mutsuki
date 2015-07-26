@@ -14,11 +14,11 @@
       <td><%= @user.gender.blank? ? '-' : @user.gender %></td>
     </tr>
     <tr>
-      <th>Birth Day : </th>
+      <th>BirthDay : </th>
       <td><%= @user.bday.blank? ? '-' : @user.bday %></td>
     </tr>
     <tr>
-      <th>Event Id : </th>
+      <th>EventId : </th>
       <% if @user.events.blank? %>
         <td>-</td>
       <% else %>
