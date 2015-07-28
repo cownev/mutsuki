@@ -17,7 +17,10 @@
   </div>
   <div class="field">
     <%= f.label :date %><br>
-    <%= f.date_select :date %>
+    <%= f.date_select :date, 
+      use_two_digit_numbers: true,
+      date_separator: ' - '
+    %>
   </div>
   <div class="actions">
     <%= f.submit 'Register Event', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>

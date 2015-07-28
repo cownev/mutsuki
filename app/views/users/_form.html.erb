@@ -21,7 +21,13 @@
   </div>
   <div class="field">
     <%= f.label :bday %><br>
-    <%= f.date_select :bday %>
+    <%= f.date_select :bday, 
+      start_year: (Time.now.year-100), 
+      end_year: Time.now.year, 
+      use_two_digit_numbers: true,
+      include_blank: true,
+      date_separator: ' - '
+    %>
   </div>
   <div class="actions">
     <%= f.submit 'Register User', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>
