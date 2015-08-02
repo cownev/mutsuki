@@ -46,6 +46,7 @@ gem 'grape-jbuilder'
 
 # Admin GUI
 gem 'devise'
+gem 'kaminari'
 gem 'bootstrap-sass', '2.3.2.0'
 
 # Use ActiveModel has_secure_password

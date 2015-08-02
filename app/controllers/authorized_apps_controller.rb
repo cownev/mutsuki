@@ -4,7 +4,7 @@ class AuthorizedAppsController < ApplicationController
   # GET /authorized_apps
   # GET /authorized_apps.json
   def index
-    @authorized_apps = AuthorizedApp.all
+    @authorized_apps = AuthorizedApp.page(params[:page])
   end
 
   # GET /authorized_apps/1
