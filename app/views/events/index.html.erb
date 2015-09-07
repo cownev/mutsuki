@@ -6,6 +6,7 @@
       <th>Id</th>
       <th>Name</th>
       <th>Date</th>
+      <th>Private</th>
       <th>CreatorId</th>
       <th></th>
       <th></th>
@@ -19,6 +20,7 @@
         <td><%= event.id %></td>
         <td><%= event.name %></td>
         <td><%= event.date %></td>
+	<td><%= event.private_flg? ? 'Yes' : 'No' %></td>
         <td><%= event.creator_user_id %></td>
         <td><%= link_to 'Show', event %></td>
         <td><%= link_to 'Edit', edit_event_path(event) %></td>

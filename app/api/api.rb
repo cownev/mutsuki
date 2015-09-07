@@ -109,8 +109,9 @@ class API < Grape::API
       end
       resource :event do
         params do
-          requires :name, type: String
-          requires :date, type: Date
+          requires :name,        type: String
+          requires :date,        type: Date
+          optional :private_flg, type: Integer, default: 1, values: [0, 1]
 	end
         put "create", jbuilder:'return_header' do
           @status = 200
@@ -122,6 +123,7 @@ class API < Grape::API
           @event = Event.create!({
 	    name:            params[:name],
             date:            params[:date],
+            private_flg:     params[:private_flg],
             creator_user_id: params[:uid]
           })
 
@@ -132,9 +134,10 @@ class API < Grape::API
         end
        
         params do
-          requires :eid,  type: Integer
-          requires :name, type: String
-          requires :date, type: Date
+          requires :eid,         type: Integer
+          requires :name,        type: String
+          requires :date,        type: Date
+          requires :private_flg, type: Integer, values: [0, 1]
 	end
         put "update", jbuilder:'return_header' do
           @status = 200
@@ -143,8 +146,9 @@ class API < Grape::API
           @event = Event.find_by(id: params[:eid], creator_user_id: params[:uid])
 	  raise ActiveRecord::RecordNotFound if @event.blank?
 	  @event.update({
-       	          name: params[:name],
-                  date: params[:date]
+       	          name:        params[:name],
+                  date:        params[:date],
+                  private_flg: params[:private_flg],
 	  })
         end
 

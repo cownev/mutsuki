@@ -70,6 +70,6 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params['event']['creator_user_id'] = 0 if action_name == "create"
-      params.require(:event).permit(:name, :date, :creator_user_id)
+      params.require(:event).permit(:name, :date, :private_flg, :creator_user_id)
     end
 end

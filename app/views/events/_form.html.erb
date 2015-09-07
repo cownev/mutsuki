@@ -22,6 +22,11 @@
       date_separator: ' - '
     %>
   </div>
+  <div class="field">
+    <label>Private Event ?</label> 
+    <label class="radio inline"><%= f.radio_button :private_flg, 'true', checked: true %>Yes</label>
+    <label class="radio inline"><%= f.radio_button :private_flg, 'false' %>No</label>
+  </div><br>
   <div class="actions">
     <%= f.submit 'Register Event', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>
   </div>
