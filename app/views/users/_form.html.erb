@@ -12,22 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :fid %><br>
-    <%= f.text_field :fid %>
-  </div>
-  <div class="field">
-    <%= f.label :gender %><br>
-    <%= f.text_field :gender %>
-  </div>
-  <div class="field">
-    <%= f.label :bday %><br>
-    <%= f.date_select :bday, 
-      start_year: (Time.now.year-100), 
-      end_year: Time.now.year, 
-      use_two_digit_numbers: true,
-      include_blank: true,
-      date_separator: ' - '
-    %>
+    <label>OS</label>
+    <%= f.text_field :os %>
   </div>
   <div class="actions">
     <%= f.submit 'Register User', data: {confirm: 'Are you sure ?', disable_with: 'Waiting...'}, class: 'btn btn-primary' %>

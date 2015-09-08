@@ -56,32 +56,14 @@ class API < Grape::API
 
     resource :user do
       params do
-        requires :fid,    type: String
-	optional :gender, type: String
-	optional :bday,   type: Date
+	optional :os, type: String
       end
       put "create", jbuilder:'new_user' do
         @status = 200
         @message = 'OK'
         @user = User.create!({
-   	  fid:    params[:fid],
-   	  gender: params[:gender],
-   	  bday:   params[:bday]
+   	  os: params[:os]
         })
-      end
-
-      params do
-        requires :fid, type: String
-      end
-      get "auth", jbuilder:'auth_user' do
-      #get "auth", jbuilder:'return_header' do
-        @status = 200
-        @message = 'OK'
-        @user = User.find_by(fid: params[:fid])
-        # @id = User.where(fid: params[:fid]).select(:id).limit(1)
-        # @user = User.find(@id) if @id
-        show_message(401, "unauthorized") if @user.blank?
-        #show_message(401, "unauthorized") if @id.blank?
       end
 
       params do

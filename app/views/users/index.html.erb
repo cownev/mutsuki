@@ -4,9 +4,8 @@
   <thead>
     <tr>
       <th>Id</th>
-      <th>Fid</th>
-      <th>Gender</th>
-      <th>BirthDay</th>
+      <th># of Events</th>
+      <th>OS</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,9 +16,8 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.id %></td>
-        <td><%= user.fid %></td>
-	<td><%= user.gender.blank? ? '-' : user.gender %></td>
-	<td><%= user.bday.blank? ? '-' : user.bday %></td>
+        <td><%= user.events.length %></td>
+	<td><%= user.os.blank? ? '-' : user.os %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure ?' } %></td>

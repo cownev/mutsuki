@@ -6,19 +6,11 @@
       <td><%= @user.id %></td>
     </tr>
     <tr>
-      <th>Fid : </th>
-      <td><%= @user.fid %></td>
+      <th>OS : </th>
+      <td><%= @user.os.blank? ? '-' : @user.os%></td>
     </tr>
     <tr>
-      <th>Gender : </th>
-      <td><%= @user.gender.blank? ? '-' : @user.gender %></td>
-    </tr>
-    <tr>
-      <th>BirthDay : </th>
-      <td><%= @user.bday.blank? ? '-' : @user.bday %></td>
-    </tr>
-    <tr>
-      <th>EventId : </th>
+      <th>EventIds : </th>
       <% if @user.events.blank? %>
         <td>-</td>
       <% else %>
