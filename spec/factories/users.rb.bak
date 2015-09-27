@@ -1,0 +1,37 @@
+#FactoryGirl.define do
+#  factory :user do
+#    os "iOS"
+#    event
+#  end
+
+#  after(:build) do |user| 
+#    create(:event, user: user)
+#    #generate_hashed_password(user)
+#  end
+#end
+
+FactoryGirl.define do
+  sequence(:name) { |n| "event-#{n}" }
+
+  factory :user do
+    os "iOS"
+
+    after(:create) do |user|
+      3.times do
+        create(:user_event, user: user, event: create(:event, creator_user_id: user.id))
+      end
+    end
+  end
+
+  factory :event do
+    name        
+    #name        "test-event"
+    date        "2015-01-01"
+    private_flg true
+  end
+
+  factory :user_event do
+    user 
+    event 
+  end
+end
