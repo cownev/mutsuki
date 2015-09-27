@@ -21,7 +21,7 @@ class API < Grape::API
         message: 'not found'
         #message: e.message
       }
-    }.to_json, 404).finish
+    }.to_json, 404, {"Content-Type" => "application/json"}).finish
   end
 
   rescue_from Grape::Exceptions::ValidationErrors do |e|
