@@ -43,8 +43,6 @@ RSpec.configure do |config|
 
   config.include JsonSpec::Helpers
   config.include RSpec::RequestDescriber, type: :request
-  #config.include RequestHelpers, type: :request
-  #config.include RequestMacros, type: :request
 
   config.before :all do
     FactoryGirl.reload
