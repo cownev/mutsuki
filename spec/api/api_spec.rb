@@ -14,6 +14,19 @@ describe API, type: :request  do
   let(:eid)     {@user_1.events[1].id}
   
   # create user
+  describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key" do
+
+    context 'succeeds to create user' do
+      it do
+         is_expected.to eq 200
+	 expect(body).to have_api_response(200)
+	 expect(body).to have_json_path('content/user')
+	 expect(body).to have_json_type(Integer).at_path("content/user/id")
+      end
+    end
+  end
+
+  # create user (with os parameter)
   describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key&os=:os" do
 
     context 'succeeds to create user', autodoc: true do
@@ -152,6 +165,63 @@ describe API, type: :request  do
            is_expected.to eq 409
 	   expect(body).to have_api_response(409)
         end
+      end
+    end
+  end
+
+  # [error] set wrong http method
+  describe "PUT /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid" do
+
+    context 'shows 404 response' do
+      it do
+         is_expected.to eq 404 
+	 expect(body).to have_api_response(404)
+      end
+    end
+  end
+
+  # [error] fail authentication 
+  describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid" do
+    let(:app_key) {'wrong_key'}
+
+    context 'shows 403 response' do
+      it do
+         is_expected.to eq 403 
+	 expect(body).to have_api_response(403)
+      end
+    end
+  end
+
+  # [error] access not found path
+  describe "GET /api/v1/service/test?app_id=:app_id&app_key=:app_key&uid=:uid" do
+
+    context 'shows 404 response' do
+      it do
+         is_expected.to eq 404
+	 expect(body).to have_api_response(404)
+      end
+    end
+  end
+
+  # [error] miss some mandatory parameters
+  describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key" do
+
+    context 'shows 400 response' do
+      it do
+         is_expected.to eq 400
+	 expect(body).to have_api_response(400)
+      end
+    end
+  end
+
+  # [error] set invalid parameter
+  describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&user:uid" do
+    let(:uid) {'invalid_uid'}
+
+    context 'shows 400 response' do
+      it do
+         is_expected.to eq 400
+	 expect(body).to have_api_response(400)
       end
     end
   end

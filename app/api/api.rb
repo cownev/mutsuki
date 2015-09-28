@@ -10,7 +10,7 @@ class API < Grape::API
     end
 
     def show_message(code = 500, message = 'internal error')
-      error!({'header' => {'status' => code, 'message' => message}}) 
+      error!({'header' => {'status' => code, 'message' => message}}, code) 
     end
   end
 
