@@ -9,7 +9,7 @@ class API < Grape::API
       show_message(403, 'forbidden')  unless auth_app
     end
 
-    def show_message(code = 500, message = 'internal server error')
+    def show_message(code = 500, message = 'internal error')
       error!({'header' => {'status' => code, 'message' => message}}) 
     end
   end
@@ -19,9 +19,17 @@ class API < Grape::API
       header: {
         status: 404,
         message: 'not found'
-        #message: e.message
       }
     }.to_json, 404, {"Content-Type" => "application/json"}).finish
+  end
+
+  rescue_from ActiveRecord::RecordInvalid do |e|
+    Rack::Response.new({
+      header: {
+        status: 409,
+        message: 'user already has specified event'
+      }
+    }.to_json, 409, {"Content-Type" => "application/json"}).finish
   end
 
   rescue_from Grape::Exceptions::ValidationErrors do |e|
@@ -30,17 +38,17 @@ class API < Grape::API
         status: e.status,
         message: 'some parameters are valid or some mandatory parameters are missing'
       }
-    }.to_json, e.status).finish
+    }.to_json, e.status, {"Content-Type" => "application/json"}).finish
   end
 
   rescue_from :all do |e|
     Rack::Response.new({
       header: {
         status: 500,
-        message: e.message
-	#message: 'internal error'
+	message: 'internal error'
+        #message: e.message
       }
-    }.to_json, 500).finish
+    }.to_json, 500, {"Content-Type" => "application/json"}).finish
   end
 
   after_validation do
