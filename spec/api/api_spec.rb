@@ -19,9 +19,7 @@ describe API, type: :request  do
     context 'succeeds to create user', autodoc: true do
       it do
          is_expected.to eq 200
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+	 expect(body).to have_api_response(200)
 	 expect(body).to have_json_path('content/user')
 	 expect(body).to have_json_type(Integer).at_path("content/user/id")
       end
@@ -34,9 +32,7 @@ describe API, type: :request  do
     context 'succeeds to show user', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+	 expect(body).to have_api_response(200)
       end
     end
 
@@ -45,9 +41,7 @@ describe API, type: :request  do
         let(:uid) {0}
         it do
            is_expected.to eq 404
-  	   expect(body).to have_json_path('header')
-	   expect(body).to be_json_eql(404).at_path('header/status')
-	   expect(body).to be_json_eql('"not found"').at_path('header/message')
+	   expect(body).to have_api_response(404)
         end
       end
     end
@@ -59,9 +53,7 @@ describe API, type: :request  do
     context 'succeeds to delete user', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+	 expect(body).to have_api_response(200)
       end
     end
 
@@ -70,9 +62,7 @@ describe API, type: :request  do
         let(:uid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_json_path('header')
-	   expect(body).to be_json_eql(404).at_path('header/status')
-	   expect(body).to be_json_eql('"not found"').at_path('header/message')
+	   expect(body).to have_api_response(404)
         end
       end
     end
@@ -87,9 +77,7 @@ describe API, type: :request  do
     context 'succeeds to create event', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+	 expect(body).to have_api_response(200)
       end
     end
   end
@@ -103,9 +91,7 @@ describe API, type: :request  do
     context 'succeeds to update event', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+	 expect(body).to have_api_response(200)
       end
     end
 
@@ -114,9 +100,7 @@ describe API, type: :request  do
         let(:eid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_json_path('header')
-	   expect(body).to be_json_eql(404).at_path('header/status')
-	   expect(body).to be_json_eql('"not found"').at_path('header/message')
+	   expect(body).to have_api_response(404)
         end
       end
     end
@@ -127,10 +111,8 @@ describe API, type: :request  do
 
     context 'succeeds to remove event', autodoc: true do
       it do
-         is_expected.to eq 200 
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+         is_expected.to eq 200
+	 expect(body).to have_api_response(200)
       end
     end
 
@@ -139,9 +121,7 @@ describe API, type: :request  do
         let(:eid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_json_path('header')
-	   expect(body).to be_json_eql(404).at_path('header/status')
-	   expect(body).to be_json_eql('"not found"').at_path('header/message')
+	   expect(body).to have_api_response(404)
         end
       end
     end
@@ -154,9 +134,7 @@ describe API, type: :request  do
       let(:eid) {@user_2.events[1].id}
       it do
          is_expected.to eq 200 
-	 expect(body).to have_json_path('header')
-	 expect(body).to be_json_eql(200).at_path('header/status')
-	 expect(body).to be_json_eql('"OK"').at_path('header/message')
+	 expect(body).to have_api_response(200)
       end
     end
 
@@ -165,18 +143,14 @@ describe API, type: :request  do
         let(:eid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_json_path('header')
-	   expect(body).to be_json_eql(404).at_path('header/status')
-	   expect(body).to be_json_eql('"not found"').at_path('header/message')
+	   expect(body).to have_api_response(404)
         end
       end
 
       context 'already added to event list' do
         it do
-           is_expected.to eq 500 
-	   expect(body).to have_json_path('header')
-	   expect(body).to be_json_eql(500).at_path('header/status')
-	   expect(body).to be_json_eql('"Validation failed: User has already been taken"').at_path('header/message')
+           is_expected.to eq 409
+	   expect(body).to have_api_response(409)
         end
       end
     end
