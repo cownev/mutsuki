@@ -26,7 +26,7 @@ RSpec::Matchers.define :have_api_response do |expected|
   def set_expected_message
     case expected 
     when 200
-      return '"OK"'
+      return '"ok"'
     when 400
       return '"some parameters are valid or some mandatory parameters are missing"'
     when 403

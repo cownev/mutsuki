@@ -68,7 +68,7 @@ class API < Grape::API
       end
       put "create", jbuilder:'new_user' do
         @status = 200
-        @message = 'OK'
+        @message = 'ok'
         @user = User.create!({
    	  os: params[:os]
         })
@@ -80,7 +80,7 @@ class API < Grape::API
       end
       get "/", jbuilder:'show_user' do
         @status = 200
-        @message = 'OK'
+        @message = 'ok'
         @user = User.find(params[:uid])
 	@events = @user.events.where("date >= ?", params[:efrom]).order(date: :asc, id: :asc)
       end
@@ -90,7 +90,7 @@ class API < Grape::API
       end
       delete "delete", jbuilder:'return_header' do
         @status = 200
-        @message = 'OK'
+        @message = 'ok'
         @user = User.find(params[:uid]).destroy
       end
 
@@ -105,7 +105,7 @@ class API < Grape::API
 	end
         put "create", jbuilder:'return_header' do
           @status = 200
-          @message = 'OK'
+          @message = 'ok'
 
 	  @user  = User.find(params[:uid])
 	  raise ActiveRecord::RecordNotFound if @user.blank?
@@ -131,7 +131,7 @@ class API < Grape::API
 	end
         put "update", jbuilder:'return_header' do
           @status = 200
-          @message = 'OK'
+          @message = 'ok'
 
           @event = Event.find_by(id: params[:eid], creator_user_id: params[:uid])
 	  raise ActiveRecord::RecordNotFound if @event.blank?
@@ -147,7 +147,7 @@ class API < Grape::API
         end
         put "add", jbuilder:'return_header' do
           @status = 200
-          @message = 'OK'
+          @message = 'ok'
 	  @user  = User.find(params[:uid])
 	  @event = Event.find(params[:eid])
           @user_event = UserEvent.create!({
@@ -161,7 +161,7 @@ class API < Grape::API
         end
         delete "remove", jbuilder:'return_header' do
           @status = 200
-          @message = 'OK'
+          @message = 'ok'
           @user_event = UserEvent.find_by(user_id: params[:uid], event_id: params[:eid])
 	  raise ActiveRecord::RecordNotFound if @user_event.blank?
 	  @user_event.destroy
@@ -172,7 +172,7 @@ class API < Grape::API
     resource :event do
       get "list", jbuilder:'events' do
         @status = 200
-        @message = 'OK'
+        @message = 'ok'
 	@events = Event.limit(10)
 	#@events = Event.all
       end
@@ -184,7 +184,7 @@ class API < Grape::API
       end
       put "create", jbuilder:'new_event' do
         @status = 200
-        @message = 'OK'
+        @message = 'ok'
         @user = Event.create!({
   	  uid: params[:uid],
 	  name: params[:name],
