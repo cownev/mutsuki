@@ -1,4 +1,4 @@
-RSpec::Matchers.define :have_api_response do |expected|
+RSpec::Matchers.define :have_api_header do |expected|
   match do |actual|
     @expected_status  = expected
     @expected_message = set_expected_message

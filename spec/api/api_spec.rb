@@ -7,6 +7,7 @@ describe API, type: :request  do
     @user_1 = FactoryGirl.create(:user)
     @user_2 = FactoryGirl.create(:user)
   end
+
   let(:app_id)  {@app.id}
   let(:app_key) {@app.key}
   let(:uid)     {@user_1.id}
@@ -17,11 +18,11 @@ describe API, type: :request  do
   describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key" do
 
     context 'succeeds to create user' do
-      it do
+      it do 
          is_expected.to eq 200
-	 expect(body).to have_api_response(200)
-	 expect(body).to have_json_path('content/user')
-	 expect(body).to have_json_type(Integer).at_path("content/user/id")
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).to have_api_user
       end
     end
   end
@@ -32,9 +33,9 @@ describe API, type: :request  do
     context 'succeeds to create user', autodoc: true do
       it do
          is_expected.to eq 200
-	 expect(body).to have_api_response(200)
-	 expect(body).to have_json_path('content/user')
-	 expect(body).to have_json_type(Integer).at_path("content/user/id")
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).to have_api_user
       end
     end
   end
@@ -43,9 +44,37 @@ describe API, type: :request  do
   describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid" do
 
     context 'succeeds to show user', autodoc: true do
+      let(:eid_1) {0}
       it do
          is_expected.to eq 200 
-	 expect(body).to have_api_response(200)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).to have_api_user
+
+	 # user
+	 expect(body).to be_json_eql(uid).at_path('content/user/id')
+	 expect(body).to have_api_events().count(3)
+
+	 # event 1
+	 expect(body).to be_json_eql(@user_1.events[0].id).at_path('content/events/0/id')
+	 expect(body).to be_json_eql(%("#{@user_1.events[0].name}")).at_path('content/events/0/name')
+	 expect(body).to be_json_eql(%("#{@user_1.events[0].date}")).at_path('content/events/0/date')
+	 expect(body).to be_json_eql(@user_1.events[0].creator_user_id).at_path('content/events/0/creator_user_id')
+	 expect(body).to be_json_eql((@user_1.events[0].private_flg ? 1 : 0)).at_path('content/events/0/private_flg')
+
+         # event 1
+	 expect(body).to be_json_eql(@user_1.events[1].id).at_path('content/events/1/id')
+	 expect(body).to be_json_eql(%("#{@user_1.events[1].name}")).at_path('content/events/1/name')
+	 expect(body).to be_json_eql(%("#{@user_1.events[1].date}")).at_path('content/events/1/date')
+	 expect(body).to be_json_eql(@user_1.events[1].creator_user_id).at_path('content/events/1/creator_user_id')
+	 expect(body).to be_json_eql((@user_1.events[1].private_flg ? 1 : 0)).at_path('content/events/1/private_flg')
+	 
+	 # event 2
+	 expect(body).to be_json_eql(@user_1.events[2].id).at_path('content/events/2/id')
+	 expect(body).to be_json_eql(%("#{@user_1.events[2].name}")).at_path('content/events/2/name')
+	 expect(body).to be_json_eql(%("#{@user_1.events[2].date}")).at_path('content/events/2/date')
+	 expect(body).to be_json_eql(@user_1.events[2].creator_user_id).at_path('content/events/2/creator_user_id')
+	 expect(body).to be_json_eql((@user_1.events[2].private_flg ? 1 : 0)).at_path('content/events/2/private_flg')
       end
     end
 
@@ -54,7 +83,9 @@ describe API, type: :request  do
         let(:uid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_api_response(404)
+	   expect(response.headers).to include("Content-Type" => "application/json")
+	   expect(body).to have_api_header(404)
+	   expect(body).not_to have_json_path('content')
         end
       end
     end
@@ -66,7 +97,9 @@ describe API, type: :request  do
     context 'succeeds to delete user', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_api_response(200)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).not_to have_json_path('content')
       end
     end
 
@@ -75,7 +108,9 @@ describe API, type: :request  do
         let(:uid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_api_response(404)
+	   expect(response.headers).to include("Content-Type" => "application/json")
+	   expect(body).to have_api_header(404)
+	   expect(body).not_to have_json_path('content')
         end
       end
     end
@@ -90,7 +125,9 @@ describe API, type: :request  do
     context 'succeeds to create event', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_api_response(200)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).not_to have_json_path('content')
       end
     end
   end
@@ -104,7 +141,9 @@ describe API, type: :request  do
     context 'succeeds to update event', autodoc: true do
       it do
          is_expected.to eq 200 
-	 expect(body).to have_api_response(200)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).not_to have_json_path('content')
       end
     end
 
@@ -113,7 +152,9 @@ describe API, type: :request  do
         let(:eid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_api_response(404)
+	   expect(response.headers).to include("Content-Type" => "application/json")
+	   expect(body).to have_api_header(404)
+	   expect(body).not_to have_json_path('content')
         end
       end
     end
@@ -125,7 +166,9 @@ describe API, type: :request  do
     context 'succeeds to remove event', autodoc: true do
       it do
          is_expected.to eq 200
-	 expect(body).to have_api_response(200)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).not_to have_json_path('content')
       end
     end
 
@@ -134,7 +177,9 @@ describe API, type: :request  do
         let(:eid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_api_response(404)
+	   expect(response.headers).to include("Content-Type" => "application/json")
+	   expect(body).to have_api_header(404)
+	   expect(body).not_to have_json_path('content')
         end
       end
     end
@@ -147,7 +192,9 @@ describe API, type: :request  do
       let(:eid) {@user_2.events[1].id}
       it do
          is_expected.to eq 200 
-	 expect(body).to have_api_response(200)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).not_to have_json_path('content')
       end
     end
 
@@ -156,14 +203,18 @@ describe API, type: :request  do
         let(:eid) {0}
         it do
            is_expected.to eq 404
-	   expect(body).to have_api_response(404)
+	   expect(response.headers).to include("Content-Type" => "application/json")
+	   expect(body).to have_api_header(404)
+	   expect(body).not_to have_json_path('content')
         end
       end
 
       context 'already added to event list' do
         it do
            is_expected.to eq 409
-	   expect(body).to have_api_response(409)
+	   expect(response.headers).to include("Content-Type" => "application/json")
+	   expect(body).to have_api_header(409)
+	   expect(body).not_to have_json_path('content')
         end
       end
     end
@@ -175,7 +226,9 @@ describe API, type: :request  do
     context 'shows 404 response' do
       it do
          is_expected.to eq 404 
-	 expect(body).to have_api_response(404)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(404)
+	 expect(body).not_to have_json_path('content')
       end
     end
   end
@@ -187,7 +240,9 @@ describe API, type: :request  do
     context 'shows 403 response' do
       it do
          is_expected.to eq 403 
-	 expect(body).to have_api_response(403)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(403)
+	 expect(body).not_to have_json_path('content')
       end
     end
   end
@@ -198,7 +253,9 @@ describe API, type: :request  do
     context 'shows 404 response' do
       it do
          is_expected.to eq 404
-	 expect(body).to have_api_response(404)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(404)
+	 expect(body).not_to have_json_path('content')
       end
     end
   end
@@ -209,7 +266,9 @@ describe API, type: :request  do
     context 'shows 400 response' do
       it do
          is_expected.to eq 400
-	 expect(body).to have_api_response(400)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(400)
+	 expect(body).not_to have_json_path('content')
       end
     end
   end
@@ -221,7 +280,9 @@ describe API, type: :request  do
     context 'shows 400 response' do
       it do
          is_expected.to eq 400
-	 expect(body).to have_api_response(400)
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(400)
+	 expect(body).not_to have_json_path('content')
       end
     end
   end
