@@ -223,7 +223,7 @@ describe API, type: :request  do
   # [error] set wrong http method
   describe "PUT /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid" do
 
-    context 'shows 404 response' do
+    context 'returns 404 response' do
       it do
          is_expected.to eq 404 
 	 expect(response.headers).to include("Content-Type" => "application/json")
@@ -237,7 +237,7 @@ describe API, type: :request  do
   describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid" do
     let(:app_key) {'wrong_key'}
 
-    context 'shows 403 response' do
+    context 'returns 403 response' do
       it do
          is_expected.to eq 403 
 	 expect(response.headers).to include("Content-Type" => "application/json")
@@ -250,7 +250,7 @@ describe API, type: :request  do
   # [error] access not found path
   describe "GET /api/v1/service/test?app_id=:app_id&app_key=:app_key&uid=:uid" do
 
-    context 'shows 404 response' do
+    context 'returns 404 response' do
       it do
          is_expected.to eq 404
 	 expect(response.headers).to include("Content-Type" => "application/json")
@@ -263,7 +263,7 @@ describe API, type: :request  do
   # [error] miss some mandatory parameters
   describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key" do
 
-    context 'shows 400 response' do
+    context 'returns 400 response' do
       it do
          is_expected.to eq 400
 	 expect(response.headers).to include("Content-Type" => "application/json")
@@ -277,7 +277,7 @@ describe API, type: :request  do
   describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&user:uid" do
     let(:uid) {'invalid_uid'}
 
-    context 'shows 400 response' do
+    context 'returns 400 response' do
       it do
          is_expected.to eq 400
 	 expect(response.headers).to include("Content-Type" => "application/json")
