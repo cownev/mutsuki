@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930061147) do
+ActiveRecord::Schema.define(version: 20151003033446) do
 
   create_table "admins", force: true do |t|
     t.string   "email",               default: "", null: false
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 20150930061147) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
 
   create_table "authorized_apps", force: true do |t|
-    t.string   "name"
-    t.string   "key"
+    t.string   "name",       null: false
+    t.string   "key",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
