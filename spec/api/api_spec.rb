@@ -17,12 +17,16 @@ describe API, type: :request  do
   # create user
   describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key" do
 
+    before do
+      @user_count = User.count
+    end
     context 'succeeds to create user' do
-      it do 
+      it  do 
          is_expected.to eq 200
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).to have_api_user
+	 expect(User.count).to eq(@user_count+1)
       end
     end
   end
@@ -30,12 +34,41 @@ describe API, type: :request  do
   # create user (with os parameter)
   describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key&os=:os" do
 
+    before do
+      @user_count = User.count
+    end
     context 'succeeds to create user', autodoc: true do
       it do
          is_expected.to eq 200
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).to have_api_user
+	 expect(User.count).to eq(@user_count+1)
+      end
+    end
+  end
+
+  # show user (with efrom parameter) 
+  describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid&efrom=:efrom" do
+
+    context 'succeeds to show user', autodoc: true do
+      let(:efrom) {'2013-01-01'}
+      it do
+         is_expected.to eq 200 
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).to have_api_user
+
+	 # user
+	 expect(body).to be_json_eql(uid).at_path('content/user/id')
+	 expect(body).to have_api_events().count(1)
+
+	 # event 3 
+	 expect(body).to be_json_eql(@user_1.events[2].id).at_path('content/events/0/id')
+	 expect(body).to be_json_eql(%("#{@user_1.events[2].name}")).at_path('content/events/0/name')
+	 expect(body).to be_json_eql(%("#{@user_1.events[2].date}")).at_path('content/events/0/date')
+	 expect(body).to be_json_eql(@user_1.events[2].creator_user_id).at_path('content/events/0/creator_user_id')
+	 expect(body).to be_json_eql((@user_1.events[2].private_flg ? 1 : 0)).at_path('content/events/0/private_flg')
       end
     end
   end
@@ -43,8 +76,7 @@ describe API, type: :request  do
   # show user
   describe "GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid" do
 
-    context 'succeeds to show user', autodoc: true do
-      let(:eid_1) {0}
+    context 'succeeds to show user' do
       it do
          is_expected.to eq 200 
 	 expect(response.headers).to include("Content-Type" => "application/json")
@@ -62,14 +94,14 @@ describe API, type: :request  do
 	 expect(body).to be_json_eql(@user_1.events[0].creator_user_id).at_path('content/events/0/creator_user_id')
 	 expect(body).to be_json_eql((@user_1.events[0].private_flg ? 1 : 0)).at_path('content/events/0/private_flg')
 
-         # event 1
+         # event 2 
 	 expect(body).to be_json_eql(@user_1.events[1].id).at_path('content/events/1/id')
 	 expect(body).to be_json_eql(%("#{@user_1.events[1].name}")).at_path('content/events/1/name')
 	 expect(body).to be_json_eql(%("#{@user_1.events[1].date}")).at_path('content/events/1/date')
 	 expect(body).to be_json_eql(@user_1.events[1].creator_user_id).at_path('content/events/1/creator_user_id')
 	 expect(body).to be_json_eql((@user_1.events[1].private_flg ? 1 : 0)).at_path('content/events/1/private_flg')
 	 
-	 # event 2
+	 # event 3
 	 expect(body).to be_json_eql(@user_1.events[2].id).at_path('content/events/2/id')
 	 expect(body).to be_json_eql(%("#{@user_1.events[2].name}")).at_path('content/events/2/name')
 	 expect(body).to be_json_eql(%("#{@user_1.events[2].date}")).at_path('content/events/2/date')
@@ -94,12 +126,17 @@ describe API, type: :request  do
   # delete user
   describe "DELETE /api/v1/service/user/delete?app_id=:app_id&app_key=:app_key&uid=:uid" do
 
+    before do
+      @user_count = User.count
+    end
     context 'succeeds to delete user', autodoc: true do
       it do
          is_expected.to eq 200 
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
+	 expect(User.count).to eq(@user_count-1)
+	 expect(User.where(id: uid)).not_to be_present
       end
     end
 
@@ -116,18 +153,47 @@ describe API, type: :request  do
     end
   end
 
-  # create event
+  # create event (with private_flg parameter)
   describe "PUT /api/v1/service/user/event/create?app_id=:app_id&app_key=:app_key&uid=:uid&name=:name&date=:date&private_flg=:private_flg" do
     let(:name)        {'test-event'}
     let(:date)        {'2000-01-01'}
-    let(:private_flg) {1}
+    let(:private_flg) {0}
 
+    before do
+      @event_count      = Event.count
+      @user_event_count = UserEvent.count
+    end
     context 'succeeds to create event', autodoc: true do
       it do
          is_expected.to eq 200 
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
+	 expect(Event.count).to eq(@event_count+1)
+	 expect(Event.where(name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: 0)).to be_present
+	 expect(UserEvent.count).to eq(@user_event_count+1)
+      end
+    end
+  end
+
+  # create event
+  describe "PUT /api/v1/service/user/event/create?app_id=:app_id&app_key=:app_key&uid=:uid&name=:name&date=:date" do
+    let(:name)        {'test-event'}
+    let(:date)        {'2000-01-01'}
+
+    before do
+      @event_count      = Event.count
+      @user_event_count = UserEvent.count
+    end
+    context 'succeeds to create event' do
+      it do
+         is_expected.to eq 200 
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).not_to have_json_path('content')
+	 expect(Event.count).to eq(@event_count+1)
+	 expect(Event.where(name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: 1)).to be_present
+	 expect(UserEvent.count).to eq(@user_event_count+1)
       end
     end
   end
@@ -136,7 +202,7 @@ describe API, type: :request  do
   describe "PUT /api/v1/service/user/event/update?app_id=:app_id&app_key=:app_key&uid=:uid&eid=:eid&name=:name&date=:date&private_flg=:private_flg" do
     let(:name)        {'test-event'}
     let(:date)        {'2000-01-01'}
-    let(:private_flg) {1}
+    let(:private_flg) {0}
 
     context 'succeeds to update event', autodoc: true do
       it do
@@ -144,6 +210,7 @@ describe API, type: :request  do
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
+	 expect(Event.where(id: eid, name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: 0)).to be_present
       end
     end
 
@@ -163,12 +230,20 @@ describe API, type: :request  do
   # remove event
   describe "DELETE /api/v1/service/user/event/remove?app_id=:app_id&app_key=:app_key&uid=:uid&eid=:eid" do
 
+    before do
+      @event_count      = Event.count
+      @user_event_count = UserEvent.count
+    end
     context 'succeeds to remove event', autodoc: true do
       it do
          is_expected.to eq 200
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
+	 expect(Event.count).to eq(@event_count)
+	 expect(Event.where(id: eid)).to be_present
+	 expect(UserEvent.count).to eq(@user_event_count-1)
+	 expect(UserEvent.where(user_id: uid, event_id: eid)).not_to be_present
       end
     end
 
@@ -188,6 +263,9 @@ describe API, type: :request  do
   # add event
   describe "PUT /api/v1/service/user/event/add?app_id=:app_id&app_key=:app_key&uid=:uid&eid=:eid" do
 
+    before do
+      @user_event_count = UserEvent.count
+    end
     context 'succeeds to add event', autodoc: true do
       let(:eid) {@user_2.events[1].id}
       it do
@@ -195,6 +273,8 @@ describe API, type: :request  do
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
+	 expect(UserEvent.count).to eq(@user_event_count+1)
+	 expect(UserEvent.where(user_id: uid, event_id: eid)).to be_present
       end
     end
 
