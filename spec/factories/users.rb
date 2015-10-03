@@ -8,4 +8,7 @@ FactoryGirl.define do
       end
     end
   end
+
+  factory :new_user, class: User do
+  end
 end
