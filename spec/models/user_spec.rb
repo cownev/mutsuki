@@ -7,24 +7,22 @@ describe User, type: :model do
 
   context "has valid user" do
     it "set iOS to os field" do
-      #user = User.new( os: 'iOS')
-      user = FactoryGirl.create(:new_user, os: 'iOS')
+      user = User.new(os: 'iOS')
       expect(user).to be_valid
       expect(user.os).to eq 'iOS'
     end
     it "set 'Other' to os field when os field doesn't have value" do
-      user = FactoryGirl.create(:new_user)
-      #user = User.new()
+      user = User.new()
       expect(user).to be_valid
       expect(user.os).to eq 'Other'
     end
     it "set 'Other' to os field when os field is ''" do
-      user = FactoryGirl.create(:new_user, os: '')
+      user = User.new(os: '')
       expect(user).to be_valid
       expect(user.os).to eq 'Other'
     end
     it "set 'Other' to os field when os field is nil" do
-      user = FactoryGirl.create(:new_user, os: nil)
+      user = User.new(os: nil)
       expect(user).to be_valid
       expect(user.os).to eq 'Other'
     end

@@ -1,8 +1,6 @@
 FactoryGirl.define do
-  sequence(:name) { |n| "event-#{n}" }
-
   factory :event do
-    name        
+    sequence(:name) { |n| "event-#{n}" }
     date "2015-01-01"
 
     trait :private do
