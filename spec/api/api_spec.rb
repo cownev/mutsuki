@@ -170,7 +170,7 @@ describe API, type: :request  do
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
 	 expect(Event.count).to eq(@event_count+1)
-	 expect(Event.where(name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: 0)).to be_present
+	 expect(Event.where(name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: false)).to be_present
 	 expect(UserEvent.count).to eq(@user_event_count+1)
       end
     end
@@ -192,7 +192,7 @@ describe API, type: :request  do
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
 	 expect(Event.count).to eq(@event_count+1)
-	 expect(Event.where(name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: 1)).to be_present
+	 expect(Event.where(name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: true)).to be_present
 	 expect(UserEvent.count).to eq(@user_event_count+1)
       end
     end
@@ -210,7 +210,7 @@ describe API, type: :request  do
 	 expect(response.headers).to include("Content-Type" => "application/json")
 	 expect(body).to have_api_header(200)
 	 expect(body).not_to have_json_path('content')
-	 expect(Event.where(id: eid, name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: 0)).to be_present
+	 expect(Event.where(id: eid, name: "test-event", date: '2000-01-01', creator_user_id: uid, private_flg: false)).to be_present
       end
     end
 
