@@ -1,8 +1,5 @@
 #!/bin/bash
 
-export TZ='Asia/Tokyo'
-echo "set \"$TZ\" as Timezone"
-
 # valiable for connection to db
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 if [ "$(type -t set_env_var)" == "function" ]; then
@@ -15,17 +12,15 @@ if [ "$(type -t set_env_var)" == "function" ]; then
   set_env_var 'RAILS_ENV'       "production"                 $OPENSHIFT_HOMEDIR/.env/user_vars
 fi
 
-# valiable for connection to db
-#export PRO_DB_NAME=$OPENSHIFT_APP_NAME
-#export PRO_DB_URL=$OPENSHIFT_MYSQL_DB_HOST
-#export PRO_DB_PORT=$OPENSHIFT_MYSQL_DB_PORT
-#export PRO_DB_USERNAME=$OPENSHIFT_MYSQL_DB_USERNAME
-#export PRO_DB_PASSWORD=$OPENSHIFT_MYSQL_DB_PASSWORD
-#export PRO_DB_SOCKET=$OPENSHIFT_MYSQL_DB_SOCKET
-#export RAILS_ENV=production
+export PRO_DB_NAME=$OPENSHIFT_APP_NAME
+export PRO_DB_URL=$OPENSHIFT_MYSQL_DB_HOST
+export PRO_DB_PORT=$OPENSHIFT_MYSQL_DB_PORT
+export PRO_DB_USERNAME=$OPENSHIFT_MYSQL_DB_USERNAME
+export PRO_DB_PASSWORD=$OPENSHIFT_MYSQL_DB_PASSWORD
+export PRO_DB_SOCKET=$OPENSHIFT_MYSQL_DB_SOCKET
+export RAILS_ENV=production
 
+# create tables
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
-#echo "exec rake db:migrate RAILS_ENV=${RAILS_ENV:-production}"
 bundle exec rake db:migrate RAILS_ENV=${RAILS_ENV}
-#bundle exec rake db:migrate RAILS_ENV=${RAILS_ENV:-production}
 popd > /dev/null
