@@ -109,7 +109,6 @@ GEM
     multi_xml (0.5.5)
     mysql2 (0.3.16)
     orm_adapter (0.5.0)
-    pg (0.17.1)
     polyglot (0.3.5)
     rack (1.5.2)
     rack-accept (0.4.5)
@@ -224,7 +223,6 @@ DEPENDENCIES
   json_spec (~> 1.1.4)
   kaminari
   mysql2
-  pg
   rails (= 4.0.2)
   rails_12factor
   rspec-rails (~> 3.0.0)

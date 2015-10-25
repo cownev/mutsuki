@@ -21,7 +21,7 @@ test:
   socket: /tmp/mysql.sock
 
 production:
-  adapter: postgresql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: <%= ENV['PRO_DB_NAME'] %>
@@ -30,3 +30,4 @@ production:
   password: <%= ENV['PRO_DB_PASSWORD'] %>
   host: <%= ENV['PRO_DB_URL'] %>
   port: <%= ENV['PRO_DB_PORT'] %>
+  socket: <%= ENV['PRO_DB_SOCKET'] %>
