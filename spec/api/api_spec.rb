@@ -13,6 +13,18 @@ describe API, type: :request  do
   let(:uid)     {@user_1.id}
   let(:os)      {@user_1.os}
   let(:eid)     {@user_1.events[1].id}
+
+  # ping to keep alive
+  describe "GET /api/v1/ping" do
+
+    context 'succeeds to ping', autodoc: true do
+      it  do
+        is_expected.to eq 200
+        expect(response.headers).to include("Content-Type" => "application/json")
+        expect(body).to have_api_header(200)
+      end
+    end
+  end
   
   # create user
   describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key" do

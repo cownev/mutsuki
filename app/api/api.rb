@@ -51,6 +51,13 @@ class API < Grape::API
     }.to_json, 500, {"Content-Type" => "application/json"}).finish
   end
 
+  resource :ping do
+    get "/", jbuilder:'return_header' do
+      @status = 200
+      @message = 'ok'
+    end
+  end
+
   after_validation do
     authenticate!
   end
