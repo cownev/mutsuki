@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
+gem 'mysql2'
 
 # Use mysql as the database for Active Record
 group :development, :test do
-  gem 'mysql2'
 
   # Testing 
   gem 'rspec-rails', '~> 3.0.0'
@@ -18,7 +18,6 @@ group :development, :test do
 end
 
 group :production do
-  gem 'mysql2'
   gem 'thin'
   gem 'rails_12factor'
 end
