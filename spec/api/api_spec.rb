@@ -26,6 +26,23 @@ describe API, type: :request  do
     end
   end
   
+  # create user (with os parameter)
+  describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key&os=:os" do
+
+    before do
+      @user_count = User.count
+    end
+    context 'succeeds to create user', autodoc: true do
+      it do
+         is_expected.to eq 200
+	 expect(response.headers).to include("Content-Type" => "application/json")
+	 expect(body).to have_api_header(200)
+	 expect(body).to have_api_user
+	 expect(User.count).to eq(@user_count+1)
+      end
+    end
+  end
+
   # create user
   describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key" do
 
@@ -41,21 +58,16 @@ describe API, type: :request  do
 	 expect(User.count).to eq(@user_count+1)
       end
     end
-  end
 
-  # create user (with os parameter)
-  describe "PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key&os=:os" do
-
-    before do
-      @user_count = User.count
-    end
-    context 'succeeds to create user', autodoc: true do
-      it do
-         is_expected.to eq 200
-	 expect(response.headers).to include("Content-Type" => "application/json")
-	 expect(body).to have_api_header(200)
-	 expect(body).to have_api_user
-	 expect(User.count).to eq(@user_count+1)
+    context 'fails to create user' do
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
       end
     end
   end
@@ -132,6 +144,16 @@ describe API, type: :request  do
 	   expect(body).not_to have_json_path('content')
         end
       end
+
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
+      end
     end
   end
 
@@ -161,6 +183,16 @@ describe API, type: :request  do
 	   expect(body).to have_api_header(404)
 	   expect(body).not_to have_json_path('content')
         end
+      end
+
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
       end
     end
   end
@@ -208,6 +240,18 @@ describe API, type: :request  do
 	 expect(UserEvent.count).to eq(@user_event_count+1)
       end
     end
+
+    context 'fails to create event' do
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
+      end
+    end
   end
 
   # update event
@@ -235,6 +279,16 @@ describe API, type: :request  do
 	   expect(body).to have_api_header(404)
 	   expect(body).not_to have_json_path('content')
         end
+      end
+
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
       end
     end
   end
@@ -268,6 +322,16 @@ describe API, type: :request  do
 	   expect(body).to have_api_header(404)
 	   expect(body).not_to have_json_path('content')
         end
+      end
+
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
       end
     end
   end
@@ -308,6 +372,16 @@ describe API, type: :request  do
 	   expect(body).to have_api_header(409)
 	   expect(body).not_to have_json_path('content')
         end
+      end
+
+      context 'authentication failure' do
+        let(:app_key) {'wrong_key'}
+	it do
+	  is_expected.to eq 403
+	  expect(response.headers).to include("Content-Type" => "application/json")
+	  expect(body).to have_api_header(403)
+	  expect(body).not_to have_json_path('content')
+	end
       end
     end
   end
