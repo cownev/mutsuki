@@ -1,5 +1,6 @@
 ## Table of Contents
 * [api.md](api.md)
+ * [GET /api/v1/ping](api.md#get-apiv1ping)
  * [PUT /api/v1/service/user/create?app_id=:app_id&app_key=:app_key&os=:os](api.md#put-apiv1serviceusercreate?app_id=app_id&app_key=app_key&os=os)
  * [GET /api/v1/service/user?app_id=:app_id&app_key=:app_key&uid=:uid&efrom=:efrom](api.md#get-apiv1serviceuser?app_id=app_id&app_key=app_key&uid=uid&efrom=efrom)
  * [DELETE /api/v1/service/user/delete?app_id=:app_id&app_key=:app_key&uid=:uid](api.md#delete-apiv1serviceuserdelete?app_id=app_id&app_key=app_key&uid=uid)
